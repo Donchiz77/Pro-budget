@@ -3,12 +3,7 @@ const request = indexedDB.open('BudgetDB', 1);
 
 request.onupgradeneeded = function (event) {
   db = event.target.result;
-
   db.createObjectStore("BudgetStore", { autoIncrement: true });
-};
-
-request.onerror = function (event) {
-  console.log(`Error`);
 };
 
 request.onerror = function (event) {
@@ -20,7 +15,6 @@ function checkDatabase() {
   let transaction = db.transaction(['BudgetStore'], 'readwrite');
   const store = transaction.objectStore('BudgetStore');
   const getAll = store.getAll();
-
   getAll.onsuccess = function () {
     if (getAll.result.length > 0) {
       fetch('/api/transaction/bulk', {
@@ -35,7 +29,7 @@ function checkDatabase() {
         .then((res) => {
           if (res.length !== 0) {
             transaction = db.transaction(['BudgetStore'], 'readwrite');
-            const currentStore = transaction.objectStore('BudgetStore');
+            const currentStore = transaction.objectStore('BudgetStore');l
             currentStore.clear();
             console.log('Clearing store 🧹');
           }
